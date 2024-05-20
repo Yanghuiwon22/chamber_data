@@ -42,8 +42,9 @@ def draw_graph(date, y):
     graph_df['Hour'] = df['Time'].str.split(':').str[0]
     plt.figure()
     ax = sns.lineplot(data=graph_df, x='Hour', y=y)
-    # ax.set_xticks(range(0, len(df)+1, 30))
     ax.set_ylabel(y)
+    ax.set_xlabel('Time')
+    ax.set_title(f'{date}-{y} graph')
     plt.savefig(f'output/graph/{date}_{y}.png')
 
 
@@ -51,13 +52,12 @@ def draw_graph(date, y):
 def main():
     now = datetime.now()
     now_date = now.date()
-    now_date = '2024-05-19'
+    # now_date = '2024-05-18'
 
-    # get_data()
+    get_data()
     draw_graph(now_date, 'temp')
     draw_graph(now_date, 'hum')
     draw_graph(now_date, 'lux')
-
 
 if __name__ == '__main__':
     main()
