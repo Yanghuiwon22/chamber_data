@@ -38,8 +38,8 @@ def draw_graph(date):
 def main():
     output_dir = './output'
 
-    # get_data()
-    # draw_graph(f'{output_dir}/2024-05-20')
+    get_data()
+    draw_graph(f'{output_dir}/2024-05-20')
 
     data1 = pd.read_csv(f'{output_dir}/2024-05-19.csv')
     data2 = pd.read_csv(f'{output_dir}/2024-05-18.csv')

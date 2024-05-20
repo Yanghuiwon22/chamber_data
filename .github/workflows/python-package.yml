@@ -25,16 +25,16 @@ jobs:
 
     - name: Run Python Script
       run: python test_mini_chamber.py
-#      env:
-#        MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+      env:
+        MY_GITHUB_TOKEN: ${{ secrets.chamber-data }}
 
-#    - name: Commit and push changes
-#      run: |
-#        git config user.email "jyihaan4@naver.com"
-#        git config user.name "Jung Jaeyoung"
+    - name: Commit and push changes
+      run: |
+        git config user.email "hannah4212@naver.com"
+        git config user.name "Yanghuiwon22"
     
-#        git add ./output/AWS/*.csv
-#        git add ./output/daily/*.csv
-#        git clean -xdf
-#        git commit -m "Update Data - $(TZ='Asia/Seoul' date +'%Y-%m-%d')"
-#        git push
+        git add ./output/*.csv
+        git add ./output/*.png
+        git clean -xdf
+        git commit -m "Update Data - $(TZ='Asia/Seoul' date +'%Y-%m-%d')"
+        git push
