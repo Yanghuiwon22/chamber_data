@@ -2,7 +2,7 @@ name: Update data from API
 
 on:
   schedule:
-    - cron: '19 11 * * *'  # 매일 자정에 실행
+    - cron: '21 2 * * *'  # 매일 자정에 실행
   workflow_dispatch:
 
 jobs:
