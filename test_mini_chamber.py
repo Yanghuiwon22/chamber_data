@@ -8,7 +8,7 @@ url = 'https://api.thingspeak.com/channels/1999883/feeds.json?api_key=XP1R5CVUPV
 results = 0 # 받고자 하는 데이터 수 (현재를 기준으로 과거데이터, 데이터간격 3분)
 
 def get_data():
-    response = requests.get(url+'results=2000')
+    response = requests.get(url+'results=5000')
 
     if response.status_code == 200:
         df_chamber = pd.DataFrame(response.json()['feeds'])
@@ -45,6 +45,7 @@ def draw_graph(date):
 def main():
     now = datetime.now()
     now_date = now.date()
+    # now_date = '2024-05-19'
 
     get_data()
     draw_graph(now_date)
