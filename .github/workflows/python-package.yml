@@ -2,7 +2,7 @@ name: Save chamber-data
 
 on:
   schedule:
-    - cron: '55 4 * * *'
+    - cron: '00 15 * * *'
 
 jobs:
   build:
