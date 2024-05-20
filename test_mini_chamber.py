@@ -35,20 +35,29 @@ def get_data():
         else:
             print(f'{group_name} 실패')
 
-def draw_graph(date):
+def draw_graph(date, y):
     df = pd.read_csv(f'output/csv/{date}.csv')
 
-    ax = sns.lineplot(data=df, x='Time', y='temp')
-    ax.set_xticks(range(0, len(df)+1, 60))
-    plt.savefig(f'output/graph/{date}.png')
+    graph_df = df[['Time', y]]
+    graph_df['Hour'] = df['Time'].str.split(':').str[0]
+    plt.figure()
+    ax = sns.lineplot(data=graph_df, x='Hour', y=y)
+    # ax.set_xticks(range(0, len(df)+1, 30))
+    ax.set_ylabel(y)
+    plt.savefig(f'output/graph/{date}_{y}.png')
+
+
 
 def main():
     now = datetime.now()
     now_date = now.date()
-    # now_date = '2024-05-19'
+    now_date = '2024-05-19'
 
-    get_data()
-    draw_graph(now_date)
+    # get_data()
+    draw_graph(now_date, 'temp')
+    draw_graph(now_date, 'hum')
+    draw_graph(now_date, 'lux')
+
 
 if __name__ == '__main__':
     main()
