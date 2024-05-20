@@ -2,7 +2,7 @@ name: Save chamber-data
 
 on:
   schedule:
-    - cron: '37 4 * * *'
+    - cron: '55 4 * * *'
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
     - name: Run Python Script
       run: python test_mini_chamber.py
       env:
-        MY_GITHUB_TOKEN: ${{ secrets.chamber-data }}
+        MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
     - name: Commit and push changes
       run: |
