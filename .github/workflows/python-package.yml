@@ -1,8 +1,8 @@
-name: Save chamber-data to repository
+name: Save chamber-data
 
 on:
   schedule:
-    - cron: '35 4 * * *'
+    - cron: '37 4 * * *'
 
 jobs:
   build:
