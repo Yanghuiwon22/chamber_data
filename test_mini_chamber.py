@@ -14,7 +14,10 @@ def get_data():
         df_chamber = pd.DataFrame(response.json()['feeds'])
         df_chamber.insert(loc=1, column='Date', value=df_chamber['created_at'].str.split('T').str[0])
         df_chamber.insert(loc=2, column='Time', value=pd.to_datetime(df_chamber['created_at'].str.split('T').str[1].str.split('Z').str[0], format='%H:%M:%S').dt.time)
-        df_chamber['Time'] = df_chamber['Time'].apply(lambda t: (datetime.combine(datetime.min, t) + timedelta(hours=9)).time())
+        # df_chamber['Time'] = df_chamber['Time'].apply(lambda t: (datetime.combine(datetime.min, t) + timedelta(hours=9)).time())
+        print(type(df_chamber['Time']))
+        df_chamber['Time'] = df_chamber['Time'].dt.tz_localize('UTC')
+        df_chamber['Time'] = df_chamber['Time'].dt.tz_convert('Asia/Seoul')
 
         df_chamber.drop(['created_at','field4'], axis=1, inplace=True)
         df_chamber.rename(columns={'field1': 'temp', 'field2': 'hum', 'field3': 'lux'}, inplace=True)
@@ -40,10 +43,6 @@ def main():
 
     get_data()
     draw_graph(f'{output_dir}/2024-05-20')
-
-    data1 = pd.read_csv(f'{output_dir}/2024-05-19.csv')
-    data2 = pd.read_csv(f'{output_dir}/2024-05-18.csv')
-
 
 if __name__ == '__main__':
     main()

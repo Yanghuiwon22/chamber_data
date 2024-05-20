@@ -34,8 +34,8 @@ jobs:
         git config user.name "Yanghuiwon22"
     
         git pull
-        git add ./output/*.csv
-        git add ./output/*.png
+        git add ./output/csv/*.csv
+        git add ./output/graph/*.png
         git clean -xdf
         git commit -m "Update Data - $(TZ='Asia/Seoul' date +'%Y-%m-%d')"
         git push
