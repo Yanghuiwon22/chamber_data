@@ -1,4 +1,4 @@
-name: Save AWS Data
+name: Save chamber-data to repository
 
 on:
   schedule:
@@ -33,6 +33,7 @@ jobs:
         git config user.email "hannah4212@naver.com"
         git config user.name "Yanghuiwon22"
     
+        git pull
         git add ./output/*.csv
         git add ./output/*.png
         git clean -xdf
