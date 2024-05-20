@@ -1,0 +1,37 @@
+name: Update data from API
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 매일 자정에 실행
+  workflow_dispatch:
+
+jobs:
+  update_data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          pip install requests pandas
+
+      - name: Run data update script
+        run: |
+          python /path/to/your/script.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "your-username"
+          git config --global user.email "your-email@example.com"
+          git add data.csv
+          git commit -m "Update data from API"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
