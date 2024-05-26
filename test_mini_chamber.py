@@ -35,40 +35,37 @@ def get_data():
         else:
             print(f'{group_name} 실패')
 
-def draw_graph(date, y='temp'):
+def draw_graph(date, y='t&h'):
     df = pd.read_csv(f'output/csv/{date}.csv')
     df = df[['Time', 'temp', 'hum', 'lux']].dropna()
     df['Hour'] = df['Time'].str.split(':').str[0]
     print(df)
 
-    fig, ax = plt.subplots()
+    fig, ax1 = plt.subplots()
     color_temp = 'r'
     color_hum = 'b'
     color_lux = 'y'
-    sns.lineplot(x=df['Hour'].astype(int), y=df['temp'], ax=ax, c=color_temp, lw=5, label='temp')
-    sns.lineplot(x=df['Hour'].astype(int), y=df['hum'], ax=ax, c=color_hum, lw=5, label='hum')
-    sns.lineplot(x=df['Hour'].astype(int), y=df['lux'], ax=ax, c=color_lux, lw=5, label='lux')
+    sns.lineplot(x=df['Hour'].astype(int), y=df['temp'], ax=ax1, c=color_temp, lw=5, label='temp')
+    ax2 = ax1.twinx()
 
-
-    # ax.plot(df['Hour'], df['hum'], c=color_hum, lw=3, label='습도')
+    sns.lineplot(x=df['Hour'].astype(int), y=df['hum'], ax=ax2, c=color_hum, lw=5, label='hum', legend=False)
     # ax.plot(df['Hour'], df['lux'], c=color_lux, lw=5, label='광')
 
     for s in ["left", "right", "top"]:
-        ax.spines[s].set_visible(False)
-    ax.spines['bottom'].set_linewidth(3)
+        ax1.spines[s].set_visible(False)
+    ax1.spines['bottom'].set_linewidth(3)
 
-    ax.grid(axis="y")
+    ax1.grid(axis="y")
 
-    # graph_df = df[['Time', y]]
-    # graph_df['Hour'] = df['Time'].str.split(':').str[0]
-    # plt.figure()
-    # ax = sns.lineplot(data=graph_df, x='Hour', y=y)
-    # ax.set_ylabel(y)
-    # ax.set_xlabel('Time')
-    # ax.set_title(f'{date}-{y} graph')
-    plt.show()
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    lines = lines1 + lines2
+    labels = labels1 + labels2
+    ax1.legend(lines, labels, loc='upper right')
+
     plt.tight_layout()
-    # plt.savefig(f'output/graph/{date}_{y}.png')
+    plt.show()
+    plt.savefig(f'output/graph/{date}_{y}.png')
 
 
 
@@ -79,13 +76,9 @@ def main():
     now_date = now.date()
     now_date = '2024-05-19'
 
-    # for date in ['2024-05-18', '2024-05-19', '2024-05-20', '2024-05-21', '2024-05-22', '2024-05-23', '2024-05-24', '2024-05-25']:
-    #
-    #     draw_graph(date, 'temp')
-    #     draw_graph(date, 'hum')
-    #     draw_graph(date, 'lux')
-
-    draw_graph(now_date)
+    for date in ['2024-05-18', '2024-05-19', '2024-05-20', '2024-05-21', '2024-05-22', '2024-05-23', '2024-05-24', '2024-05-25']:
+        draw_graph(date, 'lux')
+        draw_graph(date)
 
 if __name__ == '__main__':
     main()
