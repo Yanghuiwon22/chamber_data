@@ -35,10 +35,11 @@ def get_data():
         else:
             print(f'{group_name} 실패')
 
-def draw_graph(date, y):
+def draw_graph(date, y='temp'):
     df = pd.read_csv(f'output/csv/{date}.csv')
 
-    print(df.head())
+    fig, ax = plt.subplots()
+
     graph_df = df[['Time', y]]
     graph_df['Hour'] = df['Time'].str.split(':').str[0]
     plt.figure()
@@ -46,7 +47,7 @@ def draw_graph(date, y):
     ax.set_ylabel(y)
     ax.set_xlabel('Time')
     # ax.set_title(f'{date}-{y} graph')
-    # plt.show()
+    plt.show()
     plt.tight_layout()
     plt.savefig(f'output/graph/{date}_{y}.png')
 
@@ -59,16 +60,13 @@ def main():
     now_date = now.date()
     now_date = '2024-05-18'
 
-    # date = '2024-05-20'
-    # draw_graph(date, 'temp')
-    # draw_graph(date, 'hum')
-    # draw_graph(date, 'lux')
+    # for date in ['2024-05-18', '2024-05-19', '2024-05-20', '2024-05-21', '2024-05-22', '2024-05-23', '2024-05-24', '2024-05-25']:
+    #
+    #     draw_graph(date, 'temp')
+    #     draw_graph(date, 'hum')
+    #     draw_graph(date, 'lux')
 
-    for date in ['2024-05-18', '2024-05-19', '2024-05-20', '2024-05-21', '2024-05-22', '2024-05-23']:
-
-        draw_graph(date, 'temp')
-        draw_graph(date, 'hum')
-        draw_graph(date, 'lux')
+    draw_graph(now_date)
 
 if __name__ == '__main__':
     main()
