@@ -8,7 +8,7 @@ url = 'https://api.thingspeak.com/channels/1999883/feeds.json?api_key=XP1R5CVUPV
 results = 0 # 받고자 하는 데이터 수 (현재를 기준으로 과거데이터, 데이터간격 3분)
 
 def get_data():
-    response = requests.get(url+'results=5000')
+    response = requests.get(url+'results=50000')
 
     if response.status_code == 200:
         df_chamber = pd.DataFrame(response.json()['feeds'])
@@ -29,7 +29,7 @@ def get_data():
     for group_name, group_df in grouped:
         print(len(group_df))
 
-        if group_name >= '2024-05-17' and len(group_df) > 1400:
+        if group_name >= '2024-05-17':
             group_df.to_csv(f'./output/csv/{group_name}.csv', index=False)
             print(f'{group_name} 성공')
         else:
@@ -38,26 +38,36 @@ def get_data():
 def draw_graph(date, y):
     df = pd.read_csv(f'output/csv/{date}.csv')
 
+    print(df.head())
     graph_df = df[['Time', y]]
     graph_df['Hour'] = df['Time'].str.split(':').str[0]
     plt.figure()
     ax = sns.lineplot(data=graph_df, x='Hour', y=y)
     ax.set_ylabel(y)
     ax.set_xlabel('Time')
-    ax.set_title(f'{date}-{y} graph')
+    # ax.set_title(f'{date}-{y} graph')
+    # plt.show()
     plt.savefig(f'output/graph/{date}_{y}.png')
 
 
 
 def main():
+    get_data()
+
     now = datetime.now()
     now_date = now.date()
-    # now_date = '2024-05-18'
+    now_date = '2024-05-18'
 
-    get_data()
-    draw_graph(now_date, 'temp')
-    draw_graph(now_date, 'hum')
-    draw_graph(now_date, 'lux')
+    date = '2024-05-20'
+    draw_graph(date, 'temp')
+    draw_graph(date, 'hum')
+    draw_graph(date, 'lux')
+
+    # for date in ['2024-05-18', '2024-05-19', '2024-05-20', '2024-05-21', '2024-05-22', '2024-05-23']:
+    #
+    #     draw_graph(date, 'temp')
+    #     draw_graph(date, 'hum')
+    #     draw_graph(date, 'lux')
 
 if __name__ == '__main__':
     main()
