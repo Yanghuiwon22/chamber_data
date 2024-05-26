@@ -47,27 +47,28 @@ def draw_graph(date, y):
     ax.set_xlabel('Time')
     # ax.set_title(f'{date}-{y} graph')
     # plt.show()
+    plt.tight_layout()
     plt.savefig(f'output/graph/{date}_{y}.png')
 
 
 
 def main():
-    get_data()
+    # get_data()
 
     now = datetime.now()
     now_date = now.date()
     now_date = '2024-05-18'
 
-    date = '2024-05-20'
-    draw_graph(date, 'temp')
-    draw_graph(date, 'hum')
-    draw_graph(date, 'lux')
+    # date = '2024-05-20'
+    # draw_graph(date, 'temp')
+    # draw_graph(date, 'hum')
+    # draw_graph(date, 'lux')
 
-    # for date in ['2024-05-18', '2024-05-19', '2024-05-20', '2024-05-21', '2024-05-22', '2024-05-23']:
-    #
-    #     draw_graph(date, 'temp')
-    #     draw_graph(date, 'hum')
-    #     draw_graph(date, 'lux')
+    for date in ['2024-05-18', '2024-05-19', '2024-05-20', '2024-05-21', '2024-05-22', '2024-05-23']:
+
+        draw_graph(date, 'temp')
+        draw_graph(date, 'hum')
+        draw_graph(date, 'lux')
 
 if __name__ == '__main__':
     main()
