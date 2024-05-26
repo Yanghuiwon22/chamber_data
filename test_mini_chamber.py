@@ -37,19 +37,38 @@ def get_data():
 
 def draw_graph(date, y='temp'):
     df = pd.read_csv(f'output/csv/{date}.csv')
+    df = df[['Time', 'temp', 'hum', 'lux']].dropna()
+    df['Hour'] = df['Time'].str.split(':').str[0]
+    print(df)
 
     fig, ax = plt.subplots()
+    color_temp = 'r'
+    color_hum = 'b'
+    color_lux = 'y'
+    sns.lineplot(x=df['Hour'].astype(int), y=df['temp'], ax=ax, c=color_temp, lw=5, label='temp')
+    sns.lineplot(x=df['Hour'].astype(int), y=df['hum'], ax=ax, c=color_hum, lw=5, label='hum')
+    sns.lineplot(x=df['Hour'].astype(int), y=df['lux'], ax=ax, c=color_lux, lw=5, label='lux')
 
-    graph_df = df[['Time', y]]
-    graph_df['Hour'] = df['Time'].str.split(':').str[0]
-    plt.figure()
-    ax = sns.lineplot(data=graph_df, x='Hour', y=y)
-    ax.set_ylabel(y)
-    ax.set_xlabel('Time')
+
+    # ax.plot(df['Hour'], df['hum'], c=color_hum, lw=3, label='습도')
+    # ax.plot(df['Hour'], df['lux'], c=color_lux, lw=5, label='광')
+
+    for s in ["left", "right", "top"]:
+        ax.spines[s].set_visible(False)
+    ax.spines['bottom'].set_linewidth(3)
+
+    ax.grid(axis="y")
+
+    # graph_df = df[['Time', y]]
+    # graph_df['Hour'] = df['Time'].str.split(':').str[0]
+    # plt.figure()
+    # ax = sns.lineplot(data=graph_df, x='Hour', y=y)
+    # ax.set_ylabel(y)
+    # ax.set_xlabel('Time')
     # ax.set_title(f'{date}-{y} graph')
     plt.show()
     plt.tight_layout()
-    plt.savefig(f'output/graph/{date}_{y}.png')
+    # plt.savefig(f'output/graph/{date}_{y}.png')
 
 
 
@@ -58,7 +77,7 @@ def main():
 
     now = datetime.now()
     now_date = now.date()
-    now_date = '2024-05-18'
+    now_date = '2024-05-19'
 
     # for date in ['2024-05-18', '2024-05-19', '2024-05-20', '2024-05-21', '2024-05-22', '2024-05-23', '2024-05-24', '2024-05-25']:
     #
