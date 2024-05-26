@@ -68,6 +68,28 @@ def draw_graph(date, y='t&h'):
     plt.savefig(f'output/graph/{date}_{y}.png')
 
 
+def draw_lux_graph(date, y='t&h'):
+    df = pd.read_csv(f'output/csv/{date}.csv')
+    df = df[['Time', 'temp', 'hum', 'lux']].dropna()
+    df['Hour'] = df['Time'].str.split(':').str[0]
+    print(df)
+
+    fig, ax1 = plt.subplots()
+    color_lux = 'y'
+    sns.lineplot(x=df['Hour'].astype(int), y=df['temp'], ax=ax1, c=color_lux, lw=5, label='temp')
+    for s in ["left", "right", "top"]:
+        ax1.spines[s].set_visible(False)
+    ax1.spines['bottom'].set_linewidth(3)
+
+    ax1.grid(axis="y")
+
+    ax1.legend(loc='upper right')
+
+    plt.tight_layout()
+    # plt.show()
+    plt.savefig(f'output/graph/{date}_{y}.png')
+
+
 
 def main():
     # get_data()
@@ -77,8 +99,8 @@ def main():
     now_date = '2024-05-19'
 
     for date in ['2024-05-18', '2024-05-19', '2024-05-20', '2024-05-21', '2024-05-22', '2024-05-23', '2024-05-24', '2024-05-25']:
-        draw_graph(date, 'lux')
-        draw_graph(date)
+        draw_lux_graph(date, 'lux')
+        # draw_graph(date)
 
 if __name__ == '__main__':
     main()
