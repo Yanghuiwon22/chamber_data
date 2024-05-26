@@ -72,17 +72,14 @@ def draw_lux_graph(date, y='t&h'):
     df = pd.read_csv(f'output/csv/{date}.csv')
     df = df[['Time', 'temp', 'hum', 'lux']].dropna()
     df['Hour'] = df['Time'].str.split(':').str[0]
-    print(df)
 
     fig, ax1 = plt.subplots()
     color_lux = 'y'
-    sns.lineplot(x=df['Hour'].astype(int), y=df['temp'], ax=ax1, c=color_lux, lw=5, label='temp')
+    sns.lineplot(x=df['Hour'].astype(int), y=df['lux'], ax=ax1, c=color_lux, lw=5, label='lux')
     for s in ["left", "right", "top"]:
         ax1.spines[s].set_visible(False)
     ax1.spines['bottom'].set_linewidth(3)
-
     ax1.grid(axis="y")
-
     ax1.legend(loc='upper right')
 
     plt.tight_layout()
