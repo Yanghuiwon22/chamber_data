@@ -64,7 +64,7 @@ def draw_graph(date, y='t&h'):
     ax1.legend(lines, labels, loc='upper right')
 
     plt.tight_layout()
-    plt.show()
+    # plt.show()
     plt.savefig(f'output/graph/{date}_{y}.png')
 
 
