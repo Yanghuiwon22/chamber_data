@@ -8,7 +8,7 @@ url = 'https://api.thingspeak.com/channels/1999883/feeds.json?api_key=XP1R5CVUPV
 results = 0 # 받고자 하는 데이터 수 (현재를 기준으로 과거데이터, 데이터간격 3분)
 
 def get_data():
-    response = requests.get(url+'results=50000')
+    response = requests.get(url+'results=5000')
 
     if response.status_code == 200:
         df_chamber = pd.DataFrame(response.json()['feeds'])
@@ -35,7 +35,7 @@ def get_data():
         else:
             print(f'{group_name} 실패')
 
-def draw_graph(date, y='t&h'):
+def draw_graph(date, y='t_h'):
     df = pd.read_csv(f'output/csv/{date}.csv')
     df = df[['Time', 'temp', 'hum', 'lux']].dropna()
     df['Hour'] = df['Time'].str.split(':').str[0]
@@ -93,11 +93,10 @@ def main():
 
     now = datetime.now()
     now_date = now.date()
-    now_date = '2024-05-19'
-
-    for date in ['2024-05-18', '2024-05-19', '2024-05-20', '2024-05-21', '2024-05-22', '2024-05-23', '2024-05-24', '2024-05-25']:
+    # now_date = '2024-05-19'
+    for date in ['2024-05-27', '2024-05-28', '2024-05-26']:
         draw_lux_graph(date, 'lux')
-        # draw_graph(date)
+        draw_graph(date)
 
 if __name__ == '__main__':
     main()
