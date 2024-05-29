@@ -39,7 +39,6 @@ def draw_graph(date, y='t_h'):
     df = pd.read_csv(f'output/csv/{date}.csv')
     df = df[['Time', 'temp', 'hum', 'lux']].dropna()
     df['Hour'] = df['Time'].str.split(':').str[0]
-    print(df)
 
     fig, ax1 = plt.subplots()
     color_temp = 'r'
@@ -89,14 +88,16 @@ def draw_lux_graph(date, y='t&h'):
 
 
 def main():
-    # get_data()
+    get_data()
 
     now = datetime.now()
     now_date = now.date()
+    now_date = '2024-05-29'
+
     # now_date = '2024-05-19'
-    for date in ['2024-05-27', '2024-05-28', '2024-05-26']:
-        draw_lux_graph(date, 'lux')
-        draw_graph(date)
+    # for date in ['2024-05-27', '2024-05-28', '2024-05-26']:
+    draw_lux_graph(now_date, 'lux')
+    draw_graph(now_date)
 
 if __name__ == '__main__':
     main()
