@@ -92,7 +92,7 @@ def main():
 
     now = datetime.now()
     now_date = now.date()
-    now_date = '2024-05-29'
+    # now_date = '2024-05-29'
 
     # now_date = '2024-05-19'
     # for date in ['2024-05-27', '2024-05-28', '2024-05-26']:
