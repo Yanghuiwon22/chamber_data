@@ -39,7 +39,6 @@ def draw_graph(date, y='t_h'):
     df = pd.read_csv(f'output/csv/{date}.csv')
     df = df[['Time', 'temp', 'hum', 'lux']].dropna()
     df['Hour'] = df['Time'].str.split(':').str[0]
-    print(df)
 
     fig, ax1 = plt.subplots()
     color_temp = 'r'
