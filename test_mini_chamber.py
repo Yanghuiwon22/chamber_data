@@ -69,7 +69,7 @@ def draw_graph(date, y='t_h'):
 
 
 def draw_lux_graph(date, y='t&h'):
-    df = pd.read_csv(f'output/csv/{date}.csv')
+    df = pd.read_csv(f'output/csv/{date}csv')
     df = df[['Time', 'temp', 'hum', 'lux']].dropna()
     df['Hour'] = df['Time'].str.split(':').str[0]
 
@@ -93,8 +93,6 @@ def main():
 
     now = datetime.now()
     now_date = now.date()
-    # now_date = '2024-05-19'
-    # for date in ['2024-05-27', '2024-05-28', '2024-05-26']:
     draw_lux_graph(now_date, 'lux')
     draw_graph(now_date)
 
