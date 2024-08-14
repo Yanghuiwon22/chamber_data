@@ -1,8 +1,15 @@
+import time
+
 import requests
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from datetime import timedelta, datetime
+
+from bs4 import BeautifulSoup
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 url = 'https://api.thingspeak.com/channels/1999883/feeds.json?api_key=XP1R5CVUPVXTNJT0&'
 results = 0 # 받고자 하는 데이터 수 (현재를 기준으로 과거데이터, 데이터간격 3분)
@@ -88,12 +95,75 @@ def draw_lux_graph(date, y='t&h'):
 
 
 def main():
-    get_data()
+    # get_data()
 
-    now = datetime.now()
-    now_date = now.date()
-    draw_lux_graph(now_date, 'lux')
-    draw_graph(now_date)
+    # now = datetime.now()
+    # now_date = now.date()
+    # draw_lux_graph(now_date, 'lux')
+    # draw_graph(now_date)
+
+    get_error_date()
+
+
+# 특정일부터 오류가 계속될 경우, 해당 기간에 대한 데이터를 생성 후 저장하는 함수
+def get_error_date():
+    base_url = 'https://github.com/Yanghuiwon22/chamber_data/tree/main/output/graph'
+
+    response = requests.get(base_url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    final_date = soup.find('div').find_all('a', {'class':'Link--primary'})
+    # print(final_date)
+
+    files = soup.find_all('a', string=lambda title: 't_h' in title if title else False)
+    # print(files[0].text.split('_'))
+    #
+    # contents = response.json()
+    # date = contents[-1]
+    # print(contents)
+
+    # page_number = 1
+    # last_file_name = 'fail'
+    #
+    # while True:
+    #     now_page = f'{base_url}?page={page_number}'
+    #     now_response = requests.get(now_page)
+    #     soup = BeautifulSoup(now_response.text, 'html.parser')
+    #
+    #     files = soup.find_all('a', {'class':'Link--primary'})
+    #
+    #     if not files:
+    #         break
+    #
+    #     last_file_name = files[-1].text
+    #     page_number += 1
+    #
+    # print(last_file_name)
+
+
+    driver = webdriver.Chrome()
+    driver.get(base_url)
+
+    while True:
+        last_height = driver.execute_script("return document.body.scrollHeight")
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        new_height = driver.execute_script("return document.body.scrollHeight")
+
+        time.sleep(1)
+        if new_height == last_height:
+            time.sleep(1)
+            break
+
+
+    time.sleep(1)
+    files = driver.find_elements(By.CSS_SELECTOR, "#folder-row > td.react-directory-row-name-cell-large-screen > div > div > div > div > a")
+    if files:
+        last_file_name = files[-1].text
+        print(f"마지막 파일 이름: {last_file_name}")
+    else:
+        print("파일을 찾을 수 없습니다.")
+
+
 
 if __name__ == '__main__':
     main()
