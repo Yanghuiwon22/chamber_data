@@ -154,14 +154,26 @@ def get_error_date():
             time.sleep(1)
             break
 
+    ## 스크롤 완.
+
 
     time.sleep(1)
-    files = driver.find_elements(By.CSS_SELECTOR, "#folder-row > td.react-directory-row-name-cell-large-screen > div > div > div > div > a")
-    if files:
-        last_file_name = files[-1].text
-        print(f"마지막 파일 이름: {last_file_name}")
-    else:
-        print("파일을 찾을 수 없습니다.")
+    rows = driver.find_elements(By.XPATH, "//tbody/tr")
+    rows_len = len(rows)
+
+    print(driver.find_elements(By.XPATH, f'//*[@id="folder-row-{rows_len-2}"]/td[2]/div/div/div/div/a')[0].text)
+
+    # for row in rows:
+    #     cells = row.find_elements(By.CLASS_NAME, "Link--primary")
+    #     print(len(cells))
+    #
+    #     for cell in cells:
+    #         print(cell.text)
+
+
+
+    today_date = datetime.date(datetime.now())
+
 
 
 
