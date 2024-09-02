@@ -129,7 +129,7 @@ def get_error_date():
 
     # selenium
     op = Options()
-ar    print('loading get_errordate(03/08)')
+    print('loading get_errordate(03/08)')
 
     driver = webdriver.Chrome(options=op)
     driver.get(base_url)
@@ -164,10 +164,6 @@ ar    print('loading get_errordate(03/08)')
     print('loading get_errordate(08/08)')
 
     return error_date
-
-
-
-
 
 
 if __name__ == '__main__':
